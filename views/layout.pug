@@ -1,0 +1,17 @@
+doctype htm
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Express Snippets
+    body
+        header.navbar.navber-dark.bg-dark
+            div.container
+                a.navbar-brand(href="/") Express Snippet
+
+                from.form-inline(method="GET" action="/search")
+                    input.form-control(type="search" name="query" placeholder="Search")
+                    
+        main.container
+            block main
