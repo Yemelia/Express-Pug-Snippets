@@ -1,11 +1,25 @@
 extends layout
 
-header.page-header
-    h1.page-title My Snippets
-    a(href="/create") Create
-
-if snippets.length
-    for snippet in snippets
-        h6= snippet.filename
-else
-    p U havent snippets
+block main
+    header.page-header
+        h1.page-title My Snippets
+        a(href='/create').btn.btn-primary Create
+    
+    div.row
+        div.col
+            if snippets.length
+                div.list-group
+                    for snippet in snippets
+                        a(href=`/${snippet.id}`).list-group-item.list-group-item-action.flex-column.align-items-start
+                            div.d-flex.w-100.justify-content-between
+                                h6
+                                    =snippet.filename
+                                    span.badge.badge-primary.text-uppercase.ml-2= snippet.language
+                                small.text-muted
+                                    if snippet.updatedAt
+                                        =`Updated ${moment(snippet.updatedAt).fromNow()}`
+                                    else
+                                        =`Created ${moment(snippet.createdAt).fromNow()}`
+                            p.text-muted.mb-1= snippet.description
+            else
+                p У вас еще нет сниппетов

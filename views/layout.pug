@@ -1,17 +1,23 @@
-doctype htm
-html(lang="en")
+doctype html
+html(lang="ru")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
-        title Express Snippets
+        title Express Snippet
+        link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous")
+        link(rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css")
+        link(rel="stylesheet" href="/css/styles.css")
+
+        block styles
+            
     body
-        header.navbar.navber-dark.bg-dark
+        header.navbar.navbar-dark.bg-dark
             div.container
                 a.navbar-brand(href="/") Express Snippet
 
-                from.form-inline(method="GET" action="/search")
+                form.form-inline(method="GET" action="/search")
                     input.form-control(type="search" name="query" placeholder="Search")
-                    
+
         main.container
             block main

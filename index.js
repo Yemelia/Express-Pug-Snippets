@@ -1,10 +1,16 @@
 const express = require('express');
+const moment = require('moment');
 
 const snippets = require('./snippets.json');
 
 const server = express();
 
 server.set('view engine', 'pug');
+
+server.locals.moment = moment;
+
+server.use(express.static('public'));
+server.use('/lib', express.static('node_modules'));
 
 server.get('/', (req, res) => {
     res.render('index', {
