@@ -1,0 +1,51 @@
+extends layout
+
+block append styles
+    link(rel="stylesheet" href="/lib/highlight.js/styles/vs.css")
+
+block main
+    nav
+        ol.breadcrumb
+            li.breadcrumb-item
+                a(href="/") Snippets
+            li.breadcrumb-item.active= snippet.filename
+
+    article.card
+        header.card-header.d-flex.justify-content-between.align-items-center
+            div
+                h5.card-title
+                    =snippet.filename
+                    span.badge.badge-primary.text-uppercase.ml-2= snippet.language
+                small.card-subtitle.text-muted
+                    if snippet.updatedAt
+                        =`Updated ${moment(snippet.updatedAt).fromNow()}`
+                    else
+                        =`Created ${moment(snippet.createdAt).fromNow()}`
+            
+            div
+                a(href=`/snippet/${snippet.id}/edit`).btn.btn-outline-primary.btn-sm
+                    i.fas.fa-edit
+                    | Edit
+                a(href="#" data-toggle="modal" data-target="#confirm-modal").btn.btn-outline-danger.btn-sm
+                    i.fas.fa-trash
+                    | Delete
+        
+        section.card-body
+            p.card-text= snippet.description 
+            pre
+                code(class=snippet.language).hljs!= highlight(snippet.language, snippet.code).value
+
+    div#confirm-modal.modal.fade(tabindex="-1" role="dialog")
+        div.modal-dialog(role="document")
+            form(method="POST" action=`/snippet/${snippet.id}/delete`).modal-content
+                div.modal-header
+                    h5.modal-title Delete Snippet
+
+                    button.close(data-dismiss="modal")
+                        span &times;
+                
+                div.modal-body Are u sure?
+
+                div.modal-footer
+                    button(data-dismiss="modal").btn.btn-secondary No
+                    button(type="submit").btn.btn-primary Yes

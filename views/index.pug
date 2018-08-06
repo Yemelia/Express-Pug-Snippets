@@ -10,7 +10,7 @@ block main
             if snippets.length
                 div.list-group
                     for snippet in snippets
-                        a(href=`/${snippet.id}`).list-group-item.list-group-item-action.flex-column.align-items-start
+                        a(href=`/snippet/${snippet.id}`).list-group-item.list-group-item-action.flex-column.align-items-start
                             div.d-flex.w-100.justify-content-between
                                 h6
                                     =snippet.filename
