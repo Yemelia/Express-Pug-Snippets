@@ -3,14 +3,14 @@ extends layout
 block main
     header.page-header
         h1.page-title My Snippets
-        a(href='/create').btn.btn-primary Create
+        a(href='/snippets/create').btn.btn-primary Create
     
     div.row
         div.col
             if snippets.length
                 div.list-group
                     for snippet in snippets
-                        a(href=`/snippet/${snippet.id}`).list-group-item.list-group-item-action.flex-column.align-items-start
+                        a(href=`/snippets/${snippet.id}`).list-group-item.list-group-item-action.flex-column.align-items-start
                             div.d-flex.w-100.justify-content-between
                                 h6
                                     =snippet.filename
@@ -22,4 +22,4 @@ block main
                                         =`Created ${moment(snippet.createdAt).fromNow()}`
                             p.text-muted.mb-1= snippet.description
             else
-                p У вас еще нет сниппетов
+                p U havent any Snippets

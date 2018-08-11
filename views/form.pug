@@ -1,10 +1,14 @@
 extends ./layout
 
+block append styles
+    link(rel="stylesheet" data-name="vs/editor/editor.main" href="/lib/monaco-editor/min/vs/editor/editor.main.css")
+
 block main
     header.page-header
-        h1.page-title New Snippet
+        h1.page-title= snippet.id ? 'Edit Snippet' : 'New Snippet'
 
     form#create-form(method="POST")
+        input(type="hidden" id="code" name="code")
         div.form-group
             input.form-control(type="text" name="filename" value=snippet.filename placeholder="File name" pattern="^[\\w,\\s-]+\\.[a-zA-Z]+$" required)
         div.form-group
@@ -13,3 +17,65 @@ block main
             select(name="language" value=snippet.language)#language-picker.custom-select
         div.form-group
             div#monaco-editor.form-control
+
+        a.btn.btn-secondary(href=snippet.id ? `/snippets/${snippet.id}` : '/') Back
+        button(type="submit").btn.btn-primary= snippet.id ? 'Save' : 'Create'
+
+
+block append scripts
+    script.
+        var require = { paths: { "vs": "/lib/monaco-editor/min/vs" } };
+    script(src="/lib/monaco-editor/min/vs/loader.js")
+    script(src="/lib/monaco-editor/min/vs/editor/editor.main.nls.js")
+    script(src="/lib/monaco-editor/min/vs/editor/editor.main.js")
+    script.
+        (function(value, language) {
+            var createForm = document.getElementById('create-form');
+            var languagePicker = document.getElementById('language-picker');
+            var codeInput = document.getElementById('code');
+
+            var editor = monaco.editor.create(document.getElementById('monaco-editor'), {
+                language: language,
+                value: value,
+                minimap: {
+                    enabled: false
+                }
+            });
+            
+            var LANGUAGES = monaco.languages.getLanguages();
+
+            for (var i = 0; i < LANGUAGES.length; i++) {
+                var lang = LANGUAGES[i];
+                var option = document.createElement('option');
+
+                option.value = lang.id;
+                option.textContent = lang.aliases[0];
+
+                if (lang.id === language) {
+                    option.selected = true;
+                }
+
+                languagePicker.appendChild(option);
+            }
+
+            window.onresize = function() {
+                if (editor) {
+                    editor.layout();
+                }
+            };
+
+            languagePicker.addEventListener('change', function() {
+                const language = LANGUAGES[this.selectedIndex];
+                const oldModel = editor.getModel();
+
+                monaco.editor.setModelLanguage(oldModel, language.id);
+            });
+
+            createForm.addEventListener('submit', function(event) {
+                const value = editor.getModel().getValue();
+
+                codeInput.value = value;
+
+                return true;
+            });
+        })(!{JSON.stringify(snippet.code || '')}, '#{snippet.language}');

@@ -1,0 +1,20 @@
+extends layout
+
+block main
+    header.page-header
+        h1.page-title Search results for "#{query}"
+        a(href='/snippets/create').btn.btn-primary Create
+
+    div.row
+        div.col
+            if snippets.length
+                div.list-group
+                    for snippet in snippets
+                        a(href=`/snippets/${snippet.id}`).list-group-item.list-group-item-action.flex-column.align-items-start
+                            div.d-flex.w-100.justify-content-between
+                                h6.mb-1= snippet.filename
+                                small.text-muted= moment(snippet.date).fromNow()
+                            p.text-muted.mb-1= snippet.description
+            else
+                p Snippets not found on request
+                a.btn.btn-secondary(href='/') Back

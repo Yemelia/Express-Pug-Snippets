@@ -23,7 +23,7 @@ block main
                         =`Created ${moment(snippet.createdAt).fromNow()}`
             
             div
-                a(href=`/snippet/${snippet.id}/edit`).btn.btn-outline-primary.btn-sm
+                a(href=`/snippets/${snippet.id}/edit`).btn.btn-outline-primary.btn-sm
                     i.fas.fa-edit
                     | Edit
                 a(href="#" data-toggle="modal" data-target="#confirm-modal").btn.btn-outline-danger.btn-sm
@@ -37,7 +37,7 @@ block main
 
     div#confirm-modal.modal.fade(tabindex="-1" role="dialog")
         div.modal-dialog(role="document")
-            form(method="POST" action=`/snippet/${snippet.id}/delete`).modal-content
+            form(method="POST" action=`/snippets/${snippet.id}/delete`).modal-content
                 div.modal-header
                     h5.modal-title Delete Snippet
 
